@@ -14,19 +14,19 @@ from rest_framework.response import Response
 from rest_framework import status
 from .status_codes import StatusCode
 
-from .models import ticket,ticket_status,user_email
+from .models import ticket,ticket_status,user_email,help_topic
 
 DEFAULT_PASSWORD = "@changepassword"
 
 
 @permission_classes((permissions.AllowAny,))
 class GetTicketDetails(viewsets.ViewSet):
+    """ post Method to get all the details of tickets created by the user via email address"""
 
     def create(self, request):
-        """Post method."""
+
         email_address = request.data["email_address"]
         user_email_obj = user_email.objects.filter(address = email_address)
-        # print("-----------------------",user_email_obj.values())
         user_id = []
         for id in user_email_obj:
             user_id.append(id.user_id)
@@ -74,16 +74,17 @@ class GetTicketDetails(viewsets.ViewSet):
 
 @permission_classes((permissions.AllowAny,))
 class GetOsTicketStatus(viewsets.ViewSet):
+    """Method to get ticket number and status of ticket created by user """
     
 
     def create(self, request):
-        """Post method."""
+
         email_address = request.data["email_address"]
         user_email_obj = user_email.objects.filter(address = email_address)
         for id in user_email_obj:
             user_id = id.user_id
       
-        ticket_obj = ticket.objects.filter(user = user_id)
+        # ticket_obj = ticket.objects.filter(user = user_id)
     
 
         response_data = []
@@ -102,21 +103,20 @@ class GetOsTicketStatus(viewsets.ViewSet):
 
 @permission_classes((permissions.AllowAny,))
 class GetStatusOfListOfTicketId(viewsets.ViewSet):
+    """Method to get ticket status of list of ticket number """
     
 
     def create(self, request):
-        """Post method."""
+
         listofticketnumber = request.data["listofticketnumber"]
-        print("-------------listofticketnumber---------------",listofticketnumber)
 
         response_data = []
 
         ticket_obj = ticket.objects.filter(number__in = listofticketnumber)
-        print("---------ticket_obj---------",ticket_obj)
 
         for data in ticket_obj:
             response_data.append(GetOsTicketStatus.get_ticket_details(data))
-
+ 
 
 
     @staticmethod
@@ -125,6 +125,33 @@ class GetStatusOfListOfTicketId(viewsets.ViewSet):
             "number" : data.number,
             "status" : data.status.state,
         }
+        
+class GetHelpTopic(viewsets.ViewSet):
+    """Method to get topic and notes"""
+    def create(self,request):
+        topic_id = request.data["topic_id"]
+        ticket_id = request.data["ticket_id"]
+        help_obj  = help_topic.objects.filter(topic_id = topic_id)
+        # a = ticket.objects.filter(topic_id=topic_id,ticket_id=40)
+        # print("=================================================================",a.values())
+        # print("---------aaaaaaaaaaa--------------",help_obj.values())
+        
+        response_data = []
+        for data in help_obj:
+            response_data.append(GetHelpTopic.get_help_topic(data))
+        
+        return Response({"st": StatusCode.OK, "dt": response_data})
+    
+    
+    @staticmethod
+    def get_help_topic(data):
+        return {
+            "topic" : data.topic,
+            "notes" : data.notes,
+        }
+    
+    
+    
         
 
 
