@@ -96,7 +96,7 @@ class ticket_priority(models.Model):
            
         
 class help_topic(models.Model):
-    topic = models.IntegerField(primary_key=True)
+    topic_id = models.IntegerField(primary_key=True)
     topic_pid = models.IntegerField()
     ispublic = models.SmallIntegerField()
     noautoresp = models.SmallIntegerField()
