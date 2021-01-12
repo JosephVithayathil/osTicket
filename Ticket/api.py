@@ -160,16 +160,28 @@ class UpdateTicket(viewsets.ViewSet):
         return Response({"st": StatusCode.OK, "dt": {}})
     
 class GetAllHelpTopic(viewsets.ViewSet):
-    """Api to get all the help topic data """
+    """Api to get all the help topic id and topic name """
     
     def create(self,request):
-        print("-------welconme======")
         
         help_obj  = help_topic.objects.all()
- 
-        print("==============xxxxxxxxxxxxx=================",help_obj)
         
-        return Response({"st" :StatusCode.OK,"dt" : "ok"})
+        response_data = []
+        
+        for data in help_obj:
+            response_data.append(self.get_all_help_topic(data))
+            
+        
+        return Response({"st" :StatusCode.OK,"dt" : response_data})
+    
+    @staticmethod
+    def get_all_help_topic(data):
+        
+        return {
+            "topic_id" : data.topic_id,
+            "topic" : data.topic
+        }
+        
                 
                 
                 
