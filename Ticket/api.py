@@ -182,6 +182,47 @@ class GetAllHelpTopic(viewsets.ViewSet):
             "topic" : data.topic
         }
         
+class GetAllDetailsOfHelpTopic(viewsets.ViewSet):
+    
+    def create(self,request):
+        request_data=request.data
+        help_topic_obj = help_topic.objects.filter(topic=request_data['topic'])
+        response_dt =[]
+        for data in help_topic_obj:
+            response_dt.append(self.get_all_details_of_help_topic(data))  
+        
+        return Response({"st" :StatusCode.OK,"dt" : response_dt})
+    
+    @staticmethod
+    
+    def get_all_details_of_help_topic(data):
+        
+        response={
+            "topic_id": data.priority_id,
+            "topic_pid" : data.topic_pid,
+            "ispublic" : data.ispublic,
+            "noautoresp":data.noautoresp,
+            "flags":data.flags,
+            "status_id":data.status_id,
+            "priority" :data.priority_id,
+            "dept":data.dept_id,
+            "staff_id":data.staff_id,
+            "team_id":data.team_id,
+            "sla_id":data.sla_id,
+            "page_id":data.page_id,
+            "sequence_id":data.sequence_id,
+            "sort":data.sort,
+            "topic":data.topic,
+            "number_format":data.number_format,
+            "notes":data.notes,
+            "created":data.created,
+            "updated":data.updated,
+        }
+        
+        return response
+    
+        
+        
                 
                 
                 

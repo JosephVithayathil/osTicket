@@ -14,5 +14,6 @@ router.register(r'get_os_ticket_status',api.GetOsTicketStatus,"GetOsTicketStatus
 router.register(r'get_status_of_list_of_ticket_id',api.GetStatusOfListOfTicketId,"GetStatusOfListOfTicketId")
 router.register(r'update_ticket',api.UpdateTicket,"UpdateTicket")
 router.register(r'get_all_help_topic',api.GetAllHelpTopic,"GetAllHelpTopic")
+router.register(r'get_all_details_of_help_topic',api.GetAllDetailsOfHelpTopic,"GetAllDetailsOfHelpTopic")
 
 urlpatterns += router.urls
