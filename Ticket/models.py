@@ -102,8 +102,13 @@ class help_topic(models.Model):
     noautoresp = models.SmallIntegerField()
     flags = models.IntegerField() 
     status_id = models.IntegerField() 
+<<<<<<< HEAD
     priority = models.ForeignKey(ticket_priority,on_delete=models.CASCADE,null= True)
     dept = models.ForeignKey(department,on_delete=models.CASCADE,null= True)
+=======
+    priority_id = models.ForeignKey(ticket_priority,on_delete=models.CASCADE,null= True)
+    dept_id = models.ForeignKey(department,on_delete=models.CASCADE,null= True)
+>>>>>>> 2ad70748b90e7d18907d183e9a9bc3dbd7e0f92b
     staff_id = models.IntegerField() 
     team_id = models.IntegerField() 
     sla_id = models.IntegerField() 
@@ -209,6 +214,10 @@ class user_account(models.Model):
         db_table = "ost_user_account"
         
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2ad70748b90e7d18907d183e9a9bc3dbd7e0f92b
 
 
 

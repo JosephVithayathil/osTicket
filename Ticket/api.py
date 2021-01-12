@@ -150,6 +150,17 @@ class GetHelpTopic(viewsets.ViewSet):
 
 class UpdateTicket(viewsets.ViewSet):
     """ Api to update topic_id"""
+<<<<<<< HEAD
+=======
+    
+    def create(self,request):
+        request_data=request.data
+        ticket_obj = ticket.objects.get(ticket_id = request_data["ticket_id"])
+        ticket_obj.topic_id= request_data["topic_id"]
+        ticket_obj.save(update_fields=['topic_id'])  
+        return Response({"st": StatusCode.OK, "dt": {}})
+                
+>>>>>>> 2ad70748b90e7d18907d183e9a9bc3dbd7e0f92b
     
     def create(self,request):
         print("=============called another api==================")
