@@ -21,7 +21,7 @@ DEFAULT_PASSWORD = "@changepassword"
 
 @permission_classes((permissions.AllowAny,))
 class GetTicketDetails(viewsets.ViewSet):
-    """ post Method to get all the details of tickets created by the user via email address"""
+    """ Api to get all the details of tickets """
 
     def create(self, request):
 
@@ -70,11 +70,9 @@ class GetTicketDetails(viewsets.ViewSet):
 
         }
 
-
-
 @permission_classes((permissions.AllowAny,))
 class GetOsTicketStatus(viewsets.ViewSet):
-    """Method to get ticket number and status of ticket created by user """
+    """Api to get ticket number and status of ticket """
     
 
     def create(self, request):
@@ -84,7 +82,7 @@ class GetOsTicketStatus(viewsets.ViewSet):
         for id in user_email_obj:
             user_id = id.user_id
       
-        # ticket_obj = ticket.objects.filter(user = user_id)
+        ticket_obj = ticket.objects.filter(user = user_id)
     
 
         response_data = []
@@ -103,7 +101,7 @@ class GetOsTicketStatus(viewsets.ViewSet):
 
 @permission_classes((permissions.AllowAny,))
 class GetStatusOfListOfTicketId(viewsets.ViewSet):
-    """Method to get ticket status of list of ticket number """
+    """Api to get ticket status of list of ticket number """
     
 
     def create(self, request):
@@ -127,14 +125,11 @@ class GetStatusOfListOfTicketId(viewsets.ViewSet):
         }
         
 class GetHelpTopic(viewsets.ViewSet):
-    """Method to get topic and notes"""
+    """Api to get topic_id,topic_pid,topic and notes"""
     def create(self,request):
         topic_id = request.data["topic_id"]
         ticket_id = request.data["ticket_id"]
         help_obj  = help_topic.objects.filter(topic_id = topic_id)
-        # a = ticket.objects.filter(topic_id=topic_id,ticket_id=40)
-        # print("=================================================================",a.values())
-        # print("---------aaaaaaaaaaa--------------",help_obj.values())
         
         response_data = []
         for data in help_obj:
@@ -146,16 +141,36 @@ class GetHelpTopic(viewsets.ViewSet):
     @staticmethod
     def get_help_topic(data):
         return {
+            "topic_id" : data.topic_id,
+            "topic_pid" : data.topic_pid,
             "topic" : data.topic,
             "notes" : data.notes,
         }
-    
-    
-    
         
 
-
-
-
-
-
+class UpdateTicket(viewsets.ViewSet):
+    """ Api to update topic_id"""
+    
+    def create(self,request):
+        print("=============called another api==================")
+        request_data=request.data
+        ticket_obj = ticket.objects.get(ticket_id = request_data["ticket_id"])
+        ticket_obj.topic_id= request_data["topic_id"]
+        ticket_obj.save(update_fields=['topic_id'])  
+        return Response({"st": StatusCode.OK, "dt": {}})
+    
+class GetAllHelpTopic(viewsets.ViewSet):
+    """Api to get all the help topic data """
+    
+    def create(self,request):
+        print("-------welconme======")
+        
+        help_obj  = help_topic.objects.all()
+ 
+        print("==============xxxxxxxxxxxxx=================",help_obj)
+        
+        return Response({"st" :StatusCode.OK,"dt" : "ok"})
+                
+                
+                
+        
