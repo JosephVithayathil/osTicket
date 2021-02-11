@@ -70,6 +70,8 @@ class GetTicketDetails(viewsets.ViewSet):
 
         }
 
+
+
 @permission_classes((permissions.AllowAny,))
 class GetOsTicketStatus(viewsets.ViewSet):
     """Api to get ticket number and status of ticket """
@@ -82,7 +84,7 @@ class GetOsTicketStatus(viewsets.ViewSet):
         for id in user_email_obj:
             user_id = id.user_id
       
-        ticket_obj = ticket.objects.filter(user = user_id)
+        # ticket_obj = ticket.objects.filter(user = user_id)
     
 
         response_data = []
@@ -150,8 +152,6 @@ class GetHelpTopic(viewsets.ViewSet):
 
 class UpdateTicket(viewsets.ViewSet):
     """ Api to update topic_id"""
-<<<<<<< HEAD
-=======
     
     def create(self,request):
         request_data=request.data
@@ -160,81 +160,3 @@ class UpdateTicket(viewsets.ViewSet):
         ticket_obj.save(update_fields=['topic_id'])  
         return Response({"st": StatusCode.OK, "dt": {}})
                 
->>>>>>> 2ad70748b90e7d18907d183e9a9bc3dbd7e0f92b
-    
-    def create(self,request):
-        print("=============called another api==================")
-        request_data=request.data
-        ticket_obj = ticket.objects.get(ticket_id = request_data["ticket_id"])
-        ticket_obj.topic_id= request_data["topic_id"]
-        ticket_obj.save(update_fields=['topic_id'])  
-        return Response({"st": StatusCode.OK, "dt": {}})
-    
-class GetAllHelpTopic(viewsets.ViewSet):
-    """Api to get all the help topic id and topic name """
-    
-    def create(self,request):
-        
-        help_obj  = help_topic.objects.all()
-        
-        response_data = []
-        
-        for data in help_obj:
-            response_data.append(self.get_all_help_topic(data))
-            
-        
-        return Response({"st" :StatusCode.OK,"dt" : response_data})
-    
-    @staticmethod
-    def get_all_help_topic(data):
-        
-        return {
-            "topic_id" : data.topic_id,
-            "topic" : data.topic
-        }
-        
-class GetAllDetailsOfHelpTopic(viewsets.ViewSet):
-    
-    def create(self,request):
-        request_data=request.data
-        help_topic_obj = help_topic.objects.filter(topic=request_data['topic'])
-        response_dt =[]
-        for data in help_topic_obj:
-            response_dt.append(self.get_all_details_of_help_topic(data))  
-        
-        return Response({"st" :StatusCode.OK,"dt" : response_dt})
-    
-    @staticmethod
-    
-    def get_all_details_of_help_topic(data):
-        
-        response={
-            "topic_id": data.priority_id,
-            "topic_pid" : data.topic_pid,
-            "ispublic" : data.ispublic,
-            "noautoresp":data.noautoresp,
-            "flags":data.flags,
-            "status_id":data.status_id,
-            "priority" :data.priority_id,
-            "dept":data.dept_id,
-            "staff_id":data.staff_id,
-            "team_id":data.team_id,
-            "sla_id":data.sla_id,
-            "page_id":data.page_id,
-            "sequence_id":data.sequence_id,
-            "sort":data.sort,
-            "topic":data.topic,
-            "number_format":data.number_format,
-            "notes":data.notes,
-            "created":data.created,
-            "updated":data.updated,
-        }
-        
-        return response
-    
-        
-        
-                
-                
-                
-        
