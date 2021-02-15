@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Ticket.apps.TicketConfig',
+    #'Ticket.apps.TicketConfig',
 
     # # Internal Apps
-    # 'Ticket',
+    'Ticket',
  
 
     # External Apps
